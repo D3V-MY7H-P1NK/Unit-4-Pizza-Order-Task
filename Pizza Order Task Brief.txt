@@ -1,0 +1,244 @@
+BEGIN
+	
+	# Boolean Expresions
+	pizza_amount = False
+	pizza_size = False
+	top_select = False
+	
+	# Arrays
+	customer_details = []
+	pizza_size_details = []
+	topping_option = []
+	
+	# Pizza Sizes and Costs
+	pizza_small = 3.25
+	pizza_medium = 5.50
+	pizza_large = 7.15
+	
+	# Pizza Toppings
+	topping_1 = 'Extra Cheese'
+	topping_2 = 'Pepperoni'
+	topping_3 = 'Bacon'
+	topping_4 = 'Onion'
+	topping_5 = 'Mushroom's'
+	topping_6 = 'Olives'
+	topping_7 = 'Ham'
+	topping_8 = 'Pineapple'
+	topping_9 = 'Prawn'
+	topping_10 = 'Chilli'
+	
+	OUTPUT '|==================|' 
+	OUTPUT '|Pizza Order System|'
+	OUTPUT '|==================|'
+	
+	OUTPUT 'What is your name: '
+	name = USERINPUT
+	INSERT name into customer_details
+	
+	OUTPUT '\nWhat is your address: '
+	address = USERINPUT
+	INSERT address into customer_details
+	
+	OUTPUT '\nWhat is your phone number: '
+	phone_num = USERINPUT
+	INSERT phone_num into customer_details
+	
+	WHILE pizza_amount == False THEN
+		OUTPUT 'How many pizzas do you want to order: '
+		quantity = USERINPUT
+		IF quantity >= 1 AND quantity <= 6 THEN
+			OUTPUT 'You are ordering' + quantity + 'Pizza's'
+			pizza_amount = True
+		ELSE IF quantity <= 0 THEN
+			OUTPUT 'You cannot order negative pizza's'
+		ELSE IF quantity >= 7 THEN
+			OUTPUT 'You cannot order more than 6 Pizza's'
+		ENDIF 
+	ENDWHILE
+	
+	OUTPUT '|=====================|'
+	OUTPUT '|Pizza Sizes and Costs|'
+	OUTPUT '|=====================|'
+	
+	WHILE pizza_size == False THEN
+		pizza_remaining = quantity
+		small_check = False
+		medium_check = False
+		large_check = False
+		confirm_options = False
+		
+		small_size = 0
+		medium_size = 0
+		large_size = 0
+		
+		IF pizza_remaining > 1 THEN
+			
+			# Small Pizza
+			WHILE small_check == False THEN
+				OUTPUT 'How many of your ' + pizza_remaining + ' pizza's would you like small? '
+				small_size = USERINPUT
+				
+				IF small_size == pizza_remaining OR small_size <= pizza_remaining THEN
+					OUTPUT small_size + ' pizza's are set to be small. '
+					pizza_remaining = pizza_remaining - small_size
+					small_check = True
+					IF pizza_remaining == 0 THEN
+						pizza_size = True
+						medium_check = True
+						large_check = True
+					ENDIF
+				ELSEIF small_size > pizza_remaining THEN
+					OUTPUT 'You didn't order that many pizza's'
+				ENDIF
+			ENDWHILE
+			
+			# Medium Pizza
+			WHILE medium_check == False THEN
+				OUTPUT 'How many of your ' + pizza_remaining + ' pizza's would you like medium? '
+				medium_size = USERINPUT
+				
+				IF medium_size == pizza_remaining OR medium_size <= pizza_remaining THEN
+					OUTPUT medium_size + 'pizza's are set to be medium.'
+					pizza_remaining = pizza_remaining - medium_size
+					medium_check = True
+					IF pizza_remaining == 0 THEN
+						pizza_size = True
+						large_check = True
+					ENDIF
+				ELSEIF medium_size > pizza_remaining THEN
+					OUTPUT 'You didn't order that many pizza's'
+				ENDIF
+			ENDWHILE
+			
+			# Large Pizza
+			WHILE large_check == False THEN
+				OUTPUT 'How many of your ' + pizza_remaining + ' pizza's would you like large? '
+				large_size = USERINPUT
+				
+				IF large_size == pizza_remaining OR large_size <= pizza_remaining THEN
+					OUTPUT large_size + ' pizza's are set to be large.'
+					pizza_remaining = pizza_remaining - large_size
+					large_check = True
+					IF pizza_remaining == 0 THEN
+						pizza_size = True
+					ELSE 
+						pizza_size = False
+						confirm_options = True
+						OUTPUT 'You haven't specified a size for all of the ordered Pizza's'
+					ENDIF
+				ELSEIF large_size > pizza_remaining THEN
+					OUTPUT 'You didn't order that many pizza's'
+				ENDIF
+			ENDWHILE
+			
+			# Store data in list
+			WHILE confirm_options == False THEN
+				INSERT small_size into pizza_size_details
+				INSERT medium_size into pizza_size_details
+				INSERT large_size into pizza_size_details
+				confirm_options = True
+			ENDWHILE
+			
+		ELSEIF quantity == 1 THEN
+			OUTPUT 'Please enter the number for the size pizza you would like: '
+			size = USERINPUT
+			
+			IF size == 1 THEN
+				small_size = small_size + 1
+				pizza_size = True
+			ELSEIF size == 2 THEN
+				medium_size = medium_size + 1
+				pizza_size = True
+			ELSEIF size == 3 THEN
+				large_size = large_size + 1
+				pizza_size = True
+			ELSE
+				OUTPUT 'Invalid Input'
+			ENDIF
+			
+			INSERT small_size into pizza_size_details
+			INSERT medium_size into pizza_size_details
+			INSERT large_size into pizza_size_details
+		ENDIF
+	ENDWHILE
+	
+	OUTPUT '|================|'
+	OUTPUT '|Toppings Options|'
+	OUTPUT '|================|'
+	
+	OUTPUT '1. ' + topping_1
+	OUTPUT '2. ' + topping_2
+	OUTPUT '3. " + topping_3
+	OUTPUT '4. ' + topping_4
+	OUTPUT '5. ' + topping_5
+	OUTPUT '6. ' + topping_6
+	OUTPUT '7. ' + topping_7
+	OUTPUT '8. ' + topping_8
+	OUTPUT '9. ' + topping_9
+	OUTPUT '10. ' + topping_10
+	
+	OUTPUT 'Would you like to add toppings to your pizza? (Y/N)'
+	toppings = USERINPUT
+	
+	WHILE top_select == False THEN
+		IF toppings == 'y' THEN
+			OUTPUT 'Enter the number for the topping you would like to add '
+			selection = USERINPUT
+			
+			IF selection == 1 THEN
+				INSERT topping_1 into topping_option
+			ELSEIF selection == 2 THEN
+				INSERT topping_2 into topping_option
+			ELSEIF selection == 3 THEN
+				INSERT topping_3 into topping_option
+			ELSEIF selection == 4 THEN
+				INSERT topping_4 into topping_option
+			ELSEIF selection == 5 THEN
+				INSERT topping_5 into topping_option
+			ELSEIF selection == 6 THEN
+				INSERT topping_6 into topping_option
+			ELSEIF selection == 7 THEN
+				INSERT topping_7 into topping_option
+			ELSEIF selection == 8 THEN
+				INSERT topping_8 into topping_option
+			ELSEIF selection == 9 THEN
+				INSERT topping_9 into topping_option
+			ELSEIF selection == 10 THEN
+				INSERT topping_10 into topping_option
+			ELSE
+				OUTPUT 'ERROR'
+			ENDIF
+			
+			OUTPUT 'Would you like to add more toppings? (Y/N) '
+			more_toppings = USERINPUT
+			IF more_toppings == 'y' THEN
+				OUTPUT ''
+			ELSEIF more_toppings == 'n' THEN
+				top_select = True
+			ENDIF
+		
+		ELSEIF toppings == 'n' THEN
+			top_select = True
+		ENDIF
+	ENDWHILE
+	
+	OUTPUT ''
+
+	OUTPUT '|=============|'
+	OUTPUT '|Order Summary|'
+	OUTPUT '|=============|'
+
+	OUTPUT '|================|'
+	OUTPUT '|Customer Details|'
+	OUTPUT '|================|'
+	OUTPUT 'Name: ' + 'customer_details[0]
+	OUTPUT 'Address: ' + 'customer_details[1]
+	OUTPUT 'Phone Number: ' + 'customer_details[2]
+
+	OUTPUT '|=============|'
+	OUTPUT '|Pizza Details|'
+	OUTPUT '|=============|'
+	OUTPUT 'Small Pizza's Ordered: ' + pizza_size_details[0]
+	OUTPUT 'Medium Pizza's Ordered: ' + pizza_size_details[1]
+	OUTPUT 'Large Pizza's Ordered: ' + pizza_size_details[2]
+	OUTPUT 'Ordered Toppings: ' + topping_option
