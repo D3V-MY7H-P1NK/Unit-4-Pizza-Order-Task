@@ -4,6 +4,7 @@ BEGIN
 	pizza_amount = False
 	pizza_size = False
 	top_select = False
+	deliver = False
 	
 	# Arrays
 	customer_details = []
@@ -14,6 +15,9 @@ BEGIN
 	pizza_small = 3.25
 	pizza_medium = 5.50
 	pizza_large = 7.15
+
+	extra_topping = 0
+	delivery_charge = 2.50
 	
 	# Pizza Toppings
 	topping_1 = 'Extra Cheese'
@@ -70,6 +74,8 @@ BEGIN
 		small_size = 0
 		medium_size = 0
 		large_size = 0
+		cost = 0
+		pizza_cost = 0
 		
 		IF pizza_remaining > 1 THEN
 			
@@ -81,6 +87,8 @@ BEGIN
 				IF small_size == pizza_remaining OR small_size <= pizza_remaining THEN
 					OUTPUT small_size + ' pizza's are set to be small. '
 					pizza_remaining = pizza_remaining - small_size
+					cost = pizza_small * small_size
+					pizza_cost = pizza_cost + cost
 					small_check = True
 					IF pizza_remaining == 0 THEN
 						pizza_size = True
@@ -100,6 +108,8 @@ BEGIN
 				IF medium_size == pizza_remaining OR medium_size <= pizza_remaining THEN
 					OUTPUT medium_size + 'pizza's are set to be medium.'
 					pizza_remaining = pizza_remaining - medium_size
+					cost = pizza_medium * pizza_size
+					pizza_cost = pizza_cost + cost
 					medium_check = True
 					IF pizza_remaining == 0 THEN
 						pizza_size = True
@@ -118,6 +128,8 @@ BEGIN
 				IF large_size == pizza_remaining OR large_size <= pizza_remaining THEN
 					OUTPUT large_size + ' pizza's are set to be large.'
 					pizza_remaining = pizza_remaining - large_size
+					cost = pizza_large * large_size
+					pizza_cost = pizza_cost + cost
 					large_check = True
 					IF pizza_remaining == 0 THEN
 						pizza_size = True
@@ -215,12 +227,33 @@ BEGIN
 				OUTPUT ''
 			ELSEIF more_toppings == 'n' THEN
 				top_select = True
+				amount_top = len(topping_option)
+
+				IF amount_top >= 4 THEN
+					extra_topping = 2.50
+				ELSEIF amount_top == 3 THEN
+					extra_topping = 2
+				ELSEIF amount_top == 2 THEN
+					extra_topping = 1.35
+				ELSEIF amount_top == 1 THEN
+					extra_topping = 0.75
+				ENDIF
 			ENDIF
 		
 		ELSEIF toppings == 'n' THEN
 			top_select = True
 		ENDIF
 	ENDWHILE
+
+	WHILE deliver == False THEN
+		delivery = 0
+
+		OUTPUT 'Do you want delivery? (Y/N)'
+		delivery = USERINPUT
+		IF delivery.lower == 'y' OR 'n' THEN
+			deliver = True
+		ELSE:
+			OUTPUT 'Invalid Input'
 	
 	OUTPUT ''
 
@@ -242,3 +275,29 @@ BEGIN
 	OUTPUT 'Medium Pizza's Ordered: ' + pizza_size_details[1]
 	OUTPUT 'Large Pizza's Ordered: ' + pizza_size_details[2]
 	OUTPUT 'Ordered Toppings: ' + topping_option
+
+	OUTPUT '|====|'
+	OUTPUT '|Cost|'
+	OUTPUT '|====|'
+	OUTPUT 'Pizza Cost = ' + pizza_cost
+	OUTPUT 'Topping Cost = ' + extra_topping
+	OUTPUT 'Delivery Cost = ' + delivery_charge
+
+	discount_check = pizza_cost + extra_topping
+
+	IF discount_check > 20 THEN
+		discount = discount_check / 10
+		total_cost = discount_check = discount
+
+		dis = round(discount, 2)
+		OUTPUT 'Discount Applied = -' + dis
+	ELSEIF discount_check <= 20 THEN
+		total_cost = pizza_cost + extra_topping
+	ENDIF
+
+	IF delivery.lower == 'y' THEN
+		total_cost = total_cost + delivery_charge
+	ENDIF
+
+tot = round(total_cost, 2)
+OUTPUT 'Total = ' + tot

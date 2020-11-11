@@ -4,6 +4,7 @@ import re
 pizza_amount = False
 pizza_size = False
 top_select = False
+deliver = False
 
 #Arrays
 customer_details = [] # Name, Address, Phone number
@@ -14,6 +15,9 @@ topping_option = []
 pizza_small = 3.25
 pizza_medium = 5.50
 pizza_large = 7.15
+
+extra_topping = 0
+delivery_charge = 2.50
 
 #Pizza Topping Options
 topping_1 = "Extra Cheese"
@@ -69,6 +73,8 @@ while pizza_size == False:
     small_size = 0
     medium_size = 0
     large_size = 0
+    cost = 0
+    pizza_cost = 0 
 
     if pizza_remaining > 1:
 
@@ -79,6 +85,8 @@ while pizza_size == False:
             if small_size == pizza_remaining or small_size <= pizza_remaining:
                 print("\n", str(small_size), " pizza's are set to be small.")
                 pizza_remaining = pizza_remaining - small_size
+                cost = pizza_small * small_size
+                pizza_cost = pizza_cost + cost
                 small_check = True
                 if pizza_remaining == 0:
                     pizza_size = True  
@@ -94,6 +102,8 @@ while pizza_size == False:
             if medium_size == pizza_remaining or medium_size <= pizza_remaining:
                 print("\n", str(medium_size), " pizza's are set to be medium.")
                 pizza_remaining = pizza_remaining - medium_size
+                cost = pizza_medium * pizza_size
+                pizza_cost = pizza_cost + cost
                 medium_check = True
                 if pizza_remaining == 0:
                     pizza_size = True
@@ -108,6 +118,8 @@ while pizza_size == False:
             if large_size == pizza_remaining or large_size <= pizza_remaining:
                 print("\n", str(large_size), " pizza's are set to be large.")
                 pizza_remaining = pizza_remaining - large_size
+                cost = pizza_large * large_size
+                pizza_cost = pizza_cost + cost
                 large_check = True
                 if pizza_remaining == 0:
                     pizza_size = True
@@ -181,9 +193,29 @@ while top_select == False:
             print("\n") # Restarts at begining of top_select While Statement
         elif more_toppings.lower() == "n":
             top_select = True
+            amount_top = len(topping_option)
+
+            if amount_top >= 4:
+                extra_topping = 2.50
+            elif amount_top == 3:
+                extra_topping = 2
+            elif amount_top == 2:
+                extra_topping = 1.35
+            elif amount_top == 1:
+                extra_topping = 0.75
 
     elif toppings.lower() == "n":
         top_select = True
+        extra_topping = 0
+    
+while deliver == False:
+    delivery = 0
+
+    delivery = input("\nDo you want delivery? (Y/N)")
+    if delivery.lower == "y" or "n":
+        deliver = True
+    else:
+        print("\nInvalid Input")
 
 print("\n")
 
@@ -199,3 +231,25 @@ print("Small Pizza's Ordered: ", pizza_size_details[0])
 print("Medium Pizza's Ordered: ", pizza_size_details[1])
 print("Large Pizza's Ordered: ", pizza_size_details[2])
 print("Ordered Toppings: ", topping_option)
+
+print("\n|====|", "\n|Cost|", "\n|====|\n")
+print("Pizza Cost = ", str(pizza_cost))
+print("Topping Cost = ", str(extra_topping))
+print("Delivery Cost = ", str(delivery_charge))
+
+discount_check = pizza_cost + extra_topping
+
+if discount_check > 20:
+    discount = discount_check / 10
+    total_cost = discount_check - discount
+
+    dis = round(discount, 2)
+    print("\nDiscount Applied = -", str(dis))
+elif discount_check <= 20:
+    total_cost = pizza_cost + extra_topping
+
+if delivery.lower == "y":
+    total_cost = total_cost + delivery_charge
+
+tot = round(total_cost, 2)
+print("\nTotal = ", str(tot))
