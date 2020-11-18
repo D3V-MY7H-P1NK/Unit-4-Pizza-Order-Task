@@ -44,20 +44,38 @@ customer_details.append(address)
 #if address_regex(address):
     #print("Good")
 
-phone_num = input("\nWhat is your phone number: ")
-customer_details.append(phone_num)
-#if phone_regex.match(phone_num):
-    #print("All good")
+check = False
+while check == False:
+
+    try:
+        phone_num = int(input("\nWhat is your phone number: "))
+    except ValueError:
+        print("\nNot an integer!")
+        continue
+    else:
+        customer_details.append(phone_num)
+        check = True
+
 
 while pizza_amount == False:
-    quantity = int(input("\nHow many pizzas do you want to order: "))
-    if quantity >= 1 and quantity <= 6:
-        print("You are ordering", quantity, "Pizza's.")
-        pizza_amount = True
-    elif quantity <= 0:
-        print("\nYou cannot order negative Pizza's")
-    elif quantity >= 7:
-        print("\nYou cannot order more than 6 Pizza's")
+    check = False
+
+    while check == False:
+        try:
+            quantity = int(input("\nHow many pizzas do you want to order: "))
+        except ValueError:
+            print("\nNot an integer!")
+            continue
+        else:
+            if quantity >= 1 and quantity <= 6:
+                print("You are ordering", quantity, "Pizza's.")
+                check = True
+                pizza_amount = True
+            elif quantity <= 0:
+                print("\nYou cannot order negative Pizza's")
+            elif quantity >= 7:
+                print("\nYou cannot order more than 6 Pizza's")
+
 
 print("\n|=====================|", "\n|Pizza Sizes and Costs|", "\n|=====================|")
 print("\n1. Small =", pizza_small, "\n2. Medium =", pizza_medium, "\n3. Large =", pizza_large)
@@ -80,7 +98,16 @@ while pizza_size == False:
 
         #   SMALL PIZZA
         while small_check == False:
-            small_size = int(input("\nHow many of your " + str(pizza_remaining) + " pizza's would you like small? "))
+            check = False
+
+            while check == False:
+                try:
+                    small_size = int(input("\nHow many of your " + str(pizza_remaining) + " pizza's would you like small? "))
+                except ValueError:
+                    print("\nNot an integer!")
+                    continue
+                else:
+                    check = True
 
             if small_size == pizza_remaining or small_size <= pizza_remaining:
                 print("\n", str(small_size), " pizza's are set to be small.")
@@ -97,7 +124,16 @@ while pizza_size == False:
 
         #   MEDIUM PIZZA
         while medium_check == False:
-            medium_size = int(input("\nHow many of your " + str(pizza_remaining) + " pizza's woulf you like medium? "))
+            check = False
+
+            while check == False:
+                try:
+                    medium_size = int(input("\nHow many of your " + str(pizza_remaining) + " pizza's would you like medium? "))
+                except ValueError:
+                    print("\nNot an integer!")
+                    continue
+                else:
+                    check = True
             
             if medium_size == pizza_remaining or medium_size <= pizza_remaining:
                 print("\n", str(medium_size), " pizza's are set to be medium.")
@@ -113,7 +149,16 @@ while pizza_size == False:
 
         #   LARGE PIZZA
         while large_check == False:
-            large_size = int(input("\nHow many of your " + str(pizza_remaining) + " pizza's would you like large? "))
+            check = False
+
+            while check == False:
+                try:
+                    large_size = int(input("\nHow many of your " + str(pizza_remaining) + " pizza's would you like large? "))
+                except ValueError:
+                    print("\nNot an integer!")
+                    continue
+                else:
+                    check = True
 
             if large_size == pizza_remaining or large_size <= pizza_remaining:
                 print("\n", str(large_size), " pizza's are set to be large.")
@@ -139,7 +184,16 @@ while pizza_size == False:
 
 
     elif quantity == 1:
-        size = int(input("\nPlease enter the number for the size pizza you would like: "))
+        check = False
+        while check == False:
+                try:
+                    size = int(input("\nPlease enter the number for the size pizza you would like: "))
+                except ValueError:
+                    print("\nNot an integer!")
+                    continue
+                else:
+                    check = True
+        
         if size == 1:
             small_size = small_size + 1
             pizza_size = True
